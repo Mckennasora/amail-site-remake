@@ -1,14 +1,15 @@
 package cn.harusora.amailsite.auth.controller;
 
 
-import cn.harusora.amailsite.auth.dto.*;
+import cn.harusora.amailsite.auth.dto.SiteUserListDto;
+import cn.harusora.amailsite.auth.dto.SiteUserLoginDto;
+import cn.harusora.amailsite.auth.dto.SiteUserRegisterDto;
+import cn.harusora.amailsite.auth.dto.SiteUserUpdateDto;
 import cn.harusora.amailsite.auth.entity.SiteUser;
 import cn.harusora.amailsite.auth.service.SiteUserService;
 import cn.harusora.amailsite.auth.vo.SiteUserVo;
 import cn.harusora.amailsite.common.result.Result;
-import cn.harusora.amailsite.common.utils.ValidateParams;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/siteUser")
-public class SiteUserController{
+public class SiteUserController {
     /**
      * 服务对象
      */
@@ -38,15 +39,14 @@ public class SiteUserController{
     //region 登录相关
 
     @PostMapping("/login")
-    public Result<SiteUserVo> userLogin(@Valid @RequestBody SiteUserLoginDto userLoginDto, BindingResult bindingResult) {
-        ValidateParams.validateRequestParams(bindingResult);
+    public Result<SiteUserVo> userLogin(@Valid @RequestBody SiteUserLoginDto userLoginDto) {
+//        ValidateParams.validateRequestParams(bindingResult);
         SiteUserVo userInfo = siteUserService.login(userLoginDto);
         return Result.ok(userInfo);
     }
 
     @PostMapping("/register")
-    public Result<SiteUserVo> userRegister(@Valid @RequestBody SiteUserRegisterDto userRegisterDto, BindingResult bindingResult) {
-        ValidateParams.validateRequestParams(bindingResult);
+    public Result<SiteUserVo> userRegister(@Valid @RequestBody SiteUserRegisterDto userRegisterDto) {
         SiteUserVo userInfo = siteUserService.register(userRegisterDto);
         return Result.ok(userInfo);
     }
@@ -81,8 +81,7 @@ public class SiteUserController{
 
     @PutMapping("/")
     //  @SaCheckRole("admin")
-    public Result<Boolean> updateUser(@Valid @RequestBody SiteUserUpdateDto siteUserUpdateDto, BindingResult bindingResult) {
-        ValidateParams.validateRequestParams(bindingResult);
+    public Result<Boolean> updateUser(@Valid @RequestBody SiteUserUpdateDto siteUserUpdateDto) {
         siteUserService.updateUser(siteUserUpdateDto);
         return Result.ok(true);
     }
@@ -106,8 +105,7 @@ public class SiteUserController{
     //region 用户操作
     @PutMapping("/info")
     //  @SaCheckRole("user")
-    public Result<Boolean> updateSelf(@Valid @RequestBody SiteUserUpdateDto siteuserUpdateDto,BindingResult bindingResult) {
-        ValidateParams.validateRequestParams(bindingResult);
+    public Result<Boolean> updateSelf(@Valid @RequestBody SiteUserUpdateDto siteuserUpdateDto) {
         siteUserService.updateSelf(siteuserUpdateDto);
         return Result.ok(true);
     }

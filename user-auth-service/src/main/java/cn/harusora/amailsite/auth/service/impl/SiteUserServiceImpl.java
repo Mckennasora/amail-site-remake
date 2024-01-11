@@ -2,7 +2,10 @@ package cn.harusora.amailsite.auth.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.harusora.amailsite.auth.dao.SiteUserDao;
-import cn.harusora.amailsite.auth.dto.*;
+import cn.harusora.amailsite.auth.dto.SiteUserListDto;
+import cn.harusora.amailsite.auth.dto.SiteUserLoginDto;
+import cn.harusora.amailsite.auth.dto.SiteUserRegisterDto;
+import cn.harusora.amailsite.auth.dto.SiteUserUpdateDto;
 import cn.harusora.amailsite.auth.entity.SiteUser;
 import cn.harusora.amailsite.auth.service.SiteUserService;
 import cn.harusora.amailsite.auth.vo.SiteUserVo;
@@ -17,8 +20,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 用户表(SiteUser)表服务实现类
@@ -92,6 +93,9 @@ public class SiteUserServiceImpl extends ServiceImpl<SiteUserDao, SiteUser> impl
 
     @Override
     public void batchDeleteUser(String[] arrID) {
+        for (String s : arrID) {
+            StpUtil.logout(s);
+        }
         baseMapper.deleteBatchIds(Arrays.asList(arrID));
     }
 
@@ -125,8 +129,8 @@ public class SiteUserServiceImpl extends ServiceImpl<SiteUserDao, SiteUser> impl
                 .like(!StrUtil.isBlank(siteUserListDto.getUserEmail()), SiteUser::getUserEmail, siteUserListDto.getUserEmail())
                 .like(!StrUtil.isBlank(siteUserListDto.getGender()), SiteUser::getGender, siteUserListDto.getGender())
                 .like(!StrUtil.isBlank(siteUserListDto.getUserPhone()), SiteUser::getUserPhone, siteUserListDto.getUserPhone())
-                .like(!StrUtil.isBlank(siteUserListDto.getCreateBy()) , SiteUser::getCreateBy, siteUserListDto.getCreateBy())
-                .like(!StrUtil.isBlank(siteUserListDto.getUpdateBy()) , SiteUser::getUpdateBy, siteUserListDto.getUpdateBy());
+                .like(!StrUtil.isBlank(siteUserListDto.getCreateBy()), SiteUser::getCreateBy, siteUserListDto.getCreateBy())
+                .like(!StrUtil.isBlank(siteUserListDto.getUpdateBy()), SiteUser::getUpdateBy, siteUserListDto.getUpdateBy());
 //                .like((siteUserListDto.getCreateTime()) , SiteUser::getCreateTime, siteUserListDto.getCreateTime())
 //                .like((siteUserListDto.getUpdateTime()), SiteUser::getUpdateTime, siteUserListDto.getUpdateTime());
 
