@@ -1,12 +1,19 @@
 package cn.harusora.amailsite.common.aop;
 
+import cn.harusora.amailsite.common.exception.AmailException;
+import cn.harusora.amailsite.common.result.ResultCodeEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -15,6 +22,7 @@ import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -67,6 +75,7 @@ public class SystemLogAspect {
         Object[] args = joinPoint.getArgs();
         String provideParam = Arrays.toString(args);
 
+        log.info("==================================================================================");
         log.info("request start，id: {}, url: {}, ip: {}, method: {}, params: {}",
                 requestId,
                 requestURL,
@@ -91,12 +100,13 @@ public class SystemLogAspect {
             //返回结果
 
             //报错信息
+            log.error("{}, cause by: {}", throwable.getClass(), throwable.getStackTrace()[0]);
             throw throwable;
         } finally {
             long endTime = System.currentTimeMillis();
             log.info("request end, id: {}, cost: {}ms",
                     requestId,
-                    endTime-startTime);
+                    endTime - startTime);
         }
         return proceed;
     }

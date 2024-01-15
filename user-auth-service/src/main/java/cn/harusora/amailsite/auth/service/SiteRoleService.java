@@ -1,6 +1,11 @@
 package cn.harusora.amailsite.auth.service;
 
+import cn.harusora.amailsite.auth.dto.SiteRoleAddDto;
+import cn.harusora.amailsite.auth.dto.SiteRoleListDto;
+import cn.harusora.amailsite.auth.dto.SiteRoleUpdateDto;
 import cn.harusora.amailsite.auth.entity.SiteRole;
+import cn.harusora.amailsite.auth.vo.SiteRoleVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,5 +16,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SiteRoleService extends IService<SiteRole> {
 
+    SiteRoleVo addSiteRole(SiteRoleAddDto roleAddDto);
+
+    void batchDeleteSiteRole(String[] roleIds);
+
+    void updateSiteRole(SiteRoleUpdateDto roleUpdateDto);
+
+    SiteRoleVo getSiteRoleVo(String id);
+
+    Page<SiteRole> findSiteRoleListPage(int page, int limit, SiteRoleListDto roleListDto);
 }
 
