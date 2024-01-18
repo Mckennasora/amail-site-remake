@@ -10,6 +10,7 @@ import cn.harusora.amailsite.auth.vo.SiteRoleVo;
 import cn.harusora.amailsite.common.dto.IdsDeleteDto;
 import cn.harusora.amailsite.common.result.Result;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,9 @@ import javax.validation.Valid;
  * @since 2024-01-09 12:24:51
  */
 @RestController
-@RequestMapping("siteSiteRole")
-public class SiteRoleController{
+@ApiOperation(value = "网站角色")
+@RequestMapping("siteRole")
+public class SiteRoleController {
     public final SiteRoleService roleService;
 
     @Autowired
@@ -31,13 +33,13 @@ public class SiteRoleController{
         this.roleService = roleService;
     }
 
-    //    @ApiOperation(value = "新增角色")
+    @ApiOperation(value = "新增角色")
     @PostMapping("/add")
     public Result<SiteRoleVo> add(@Valid @RequestBody SiteRoleAddDto roleAddDto) {
         SiteRoleVo role = roleService.addSiteRole(roleAddDto);
         return Result.ok(role);
     }
-    
+
     @DeleteMapping("/")
     public Result<String[]> deleteBatch(@Valid @RequestParam IdsDeleteDto idsDeleteDto) {
 

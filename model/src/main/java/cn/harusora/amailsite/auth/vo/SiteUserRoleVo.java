@@ -20,6 +20,8 @@ public class SiteUserRoleVo {
     private String userId;
     //角色Id
     private String roleId;
+    //用户name
+    private String roleName;
     //创建时间
     private Date createTime;
     //创建人

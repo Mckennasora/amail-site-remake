@@ -12,6 +12,7 @@
         <module>common</module>
         <module>model</module>
         <module>user-auth-service</module>
+        <module>site-mail-service</module>
     </modules>
 
     <properties>
